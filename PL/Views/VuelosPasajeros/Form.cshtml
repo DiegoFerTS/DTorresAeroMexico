@@ -1,0 +1,79 @@
+﻿@model ML.VuelosPasajeros
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Agendar Vuelo</h2>
+<hr />
+<br />
+
+<button class="btn btn-primary" onclick="AgregarVuelo()">Agendar otro vuelo</button>
+
+<hr />
+<br />
+@using (Html.BeginForm("AddVueloPasajero", "VuelosPasajeros", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <div class="w-100 row" id="AgendarVuelos">
+        <div class="col-6">
+            <label>Id pasajero:</label>
+            <input type="text" name="idPasajero" class="form-control" placeholder="Ingresa la id del pasajero" />
+        </div>
+
+        <div class="col-6">
+            <label>Selecciona el vuelo:</label>
+            <select name="numeroVuelo" class="form-select">
+                <option value="0">Selecciona un vuelo...</option>
+                @foreach (ML.Vuelo vuelo in Model.Vuelos)
+                {
+                    <option value="@vuelo.NumeroVuelo">@vuelo.InformacionVuelo</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <br />
+
+    <center>
+        <button class="btn btn-primary">Registrar</button>
+    </center>
+}
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+
+<script>
+
+    var optionTagsVuelos = "";
+
+
+    $(document).ready(function () {
+        @foreach (ML.Vuelo vuelo in Model.Vuelos)
+            {
+                <text>
+        optionTagsVuelos += '<option value="@vuelo.NumeroVuelo">@vuelo.InformacionVuelo</option>';
+                </text>
+            }
+
+        console.log(optionTagsVuelos);
+    });
+
+
+    function AgregarVuelo() {
+        var element =  '<div class="col-6" style="margin-top: 15px;">'
+            +'<label>Id pasajero</label>'
+            +'<input type="text" name="idPasajero" class="form-control" placeholder="Ingresa la id del pasajero" />'
+        +'</div>'
+
+            + '<div class="col-6" style="margin-top: 15px;">'
+           +'<label>Selecciona el vuelo:</label>'
+            +'<select name="numeroVuelo" class="form-select">'
+               +'<option value="0">Selecciona un vuelo...</option>'
+            + optionTagsVuelos
+            +'</select>'
+            + '</div>';
+
+        $("#AgendarVuelos").append(element);
+    }
+</script>
+
